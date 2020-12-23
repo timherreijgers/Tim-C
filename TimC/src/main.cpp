@@ -3,9 +3,15 @@
 #include <iomanip>
 
 #include "lexer.h"
+#include "Nodes.h"
 
 int main(int argc, char** argv)
 {
+	TimC::ExpressionNode* rootptr = new TimC::BinaryOpNode(new TimC::BinaryOpNode(new TimC::NumberNode(2), '*', new TimC::NumberNode(4)), '+', new TimC::NumberNode(1));
+
+	std::cout << rootptr->string() << std::endl;
+
+
 	if (argc == 1)
 	{
 		std::cout << "Welcome to the Tim-C shell" << std::endl << "Enter .exit to exit" << std::endl;
