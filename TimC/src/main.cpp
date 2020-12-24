@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 #ifdef DEBUG
 			for (auto token : tokens)
 			{
-				std::cout << std::setw(12) << token.kind() << " | [" << token.lexeme() << "]" << std::endl;
+				std::cout << std::setw(20) << token.kind() << " | [" << token.lexeme() << "]" << std::endl;
 			}
 #endif
 

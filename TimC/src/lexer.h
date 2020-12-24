@@ -11,7 +11,7 @@ namespace TimC
 	public:
 		enum Kind
 		{
-			NUMBER, PLUS, MINUS, MULTIPLY, DIVIDE, UNEXPECTED
+			NUMBER, PLUS, MINUS, MULTIPLY, DIVIDE, LPARENTISIS, RPARENTISIS, UNEXPECTED
 		};
 
 		Token(Kind kind);

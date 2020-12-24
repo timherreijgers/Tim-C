@@ -87,14 +87,26 @@ namespace TimC
 
 	ExpressionNode* Parser::factor()
 	{
-		NumberNode* node;
-		if (_currentToken->kind() != Token::Kind::NUMBER)
+		ExpressionNode* node;
+		if (_currentToken->kind() == Token::Kind::NUMBER)
 		{
-			std::cerr << "Expected a number" << std::endl;
+			node = new NumberNode(atof(_currentToken->lexeme().c_str()));
+			advance();
+			return node;
+		}
+		if (_currentToken->kind() == Token::Kind::LPARENTISIS)
+		{
+			advance();
+			node = expr();
+			if (_currentToken->kind() == Token::Kind::RPARENTISIS)
+				advance();
+				return node;
+
+			std::cerr << "Expected a )" << std::endl;
 			exit(-1);
 		}
-		node = new NumberNode(atof(_currentToken->lexeme().c_str()));
-		advance();
-		return node;
+
+		std::cerr << "Expected a number" << std::endl;
+		exit(-1);
 	}
 }

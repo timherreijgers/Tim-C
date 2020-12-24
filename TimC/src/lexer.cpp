@@ -60,6 +60,16 @@ namespace TimC
 			{
 				tokens.push_back(tokenizeNumber());
 			}
+			else if (c == '(')
+			{
+				tokens.push_back(Token(Token::Kind::LPARENTISIS, "("));
+				advance();
+			}
+			else if (c == ')')
+			{
+				tokens.push_back(Token(Token::Kind::RPARENTISIS, ")"));
+				advance();
+			}
 			else if (c == ' ' || c == '\t')
 			{
 				advance();
@@ -107,7 +117,7 @@ namespace TimC
 	std::ostream& operator<<(std::ostream& os, const Token::Kind& kind)
 	{
 		static const char* const names[]{
-			"Number", "Plus", "Minus", "Multiply", "Divide", "Unexpected",
+			"Number", "Plus", "Minus", "Multiply", "Divide", "Left parentisis", "Right parentisis", "Unexpected",
 		};
 		return os << names[static_cast<int>(kind)];
 	}
