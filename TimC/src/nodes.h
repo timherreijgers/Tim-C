@@ -20,6 +20,7 @@ namespace TimC
 	class BinaryOpNode : public ExpressionNode
 	{
 	public:
+		BinaryOpNode() : _left(nullptr), _op(0x00), _right(nullptr) {}
 		BinaryOpNode(ExpressionNode* left, char op, ExpressionNode* right) : _left(left), _op(op), _right(right) {}
 		~BinaryOpNode()
 		{
@@ -28,7 +29,6 @@ namespace TimC
 		}
 
 		std::string string() const override;
-	private:
 		ExpressionNode *_left;
 		ExpressionNode *_right;
 		char _op;
@@ -44,8 +44,5 @@ namespace TimC
 	private:
 		int _value;
 	};
-
-	std::ostream& operator<<(std::ostream& os, const BinaryOpNode& nodes);
-	std::ostream& operator<<(std::ostream& os, const NumberNode& node);
 
 }

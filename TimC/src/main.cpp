@@ -4,12 +4,13 @@
 
 #include "lexer.h"
 #include "Nodes.h"
+#include "parser.h"
 
 int main(int argc, char** argv)
 {
-	TimC::ExpressionNode* rootptr = new TimC::BinaryOpNode(new TimC::BinaryOpNode(new TimC::NumberNode(2), '*', new TimC::NumberNode(4)), '+', new TimC::NumberNode(1));
+	//TimC::ExpressionNode* rootptr = new TimC::BinaryOpNode(new TimC::BinaryOpNode(new TimC::NumberNode(2), '*', new TimC::NumberNode(4)), '+', new TimC::NumberNode(1));
 
-	std::cout << rootptr->string() << std::endl;
+	//std::cout << rootptr->string() << std::endl;
 
 
 	if (argc == 1)
@@ -36,6 +37,11 @@ int main(int argc, char** argv)
 			{
 				std::cout << std::setw(12) << token.kind() << " | [" << token.lexeme() << "]" << std::endl;
 			}
+
+			TimC::Parser parser(tokens);
+			TimC::ExpressionNode* ast = parser.parse();
+
+			std::cout << ast->string() << std::endl;
 		}
 	}
 	else
