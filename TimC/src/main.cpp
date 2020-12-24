@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "Nodes.h"
 #include "parser.h"
+#include "interpreter.h"
 
 int main(int argc, char** argv)
 {
@@ -42,6 +43,9 @@ int main(int argc, char** argv)
 			TimC::ExpressionNode* ast = parser.parse();
 
 			std::cout << ast->string() << std::endl;
+
+			TimC::Interpreter interpreter;
+			std::cout << interpreter.execute(ast) << std::endl;
 		}
 	}
 	else
