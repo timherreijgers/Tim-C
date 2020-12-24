@@ -10,11 +10,11 @@ namespace TimC
 		Interpreter();
 		~Interpreter();
 
-		int execute(ExpressionNode* node);
+		float execute(ExpressionNode* node);
 
-		int visitExpressionNode(ExpressionNode* node);
-		int visitBinaryOpNode(BinaryOpNode* node);
-		int visitNumberNode(NumberNode* node);
+		float visitExpressionNode(ExpressionNode* node);
+		float visitBinaryOpNode(BinaryOpNode* node);
+		float visitNumberNode(NumberNode* node);
 	};
 
 }

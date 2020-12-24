@@ -84,10 +84,20 @@ namespace TimC
 	Token Lexer::tokenizeNumber()
 	{
 		std::string number = "";
+		uint8_t numberOfDots = 0;
 		number.push_back(_input[_index]);
 		advance();
-		while (_index != -1 && NUMBERS.find(_input[_index]) != std::string::npos)
+		while (_index != -1 && (NUMBERS.find(_input[_index]) != std::string::npos || _input[_index] == '.'))
 		{
+			if (_input[_index] == '.')
+			{
+				numberOfDots++;
+				if (numberOfDots > 1)
+				{
+					std::cerr << "A number cant have multiple dots" << std::endl;
+					exit(-1);
+				}
+			}
 			number.push_back(_input[_index]);
 			advance();
 		}

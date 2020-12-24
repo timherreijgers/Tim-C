@@ -47,12 +47,12 @@ namespace TimC
 	class NumberNode : public ExpressionNode
 	{
 	public:
-		NumberNode(int value): _value(value) {}
+		NumberNode(float value): _value(value) {}
 		~NumberNode() {}
 		virtual NodeType type() override { return NodeType::NUMBER_NODE; }
 		std::string string() const override;
 
-		int _value;
+		float _value;
 	};
 
 }

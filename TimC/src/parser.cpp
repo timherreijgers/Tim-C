@@ -93,7 +93,7 @@ namespace TimC
 			std::cerr << "Expected a number" << std::endl;
 			exit(-1);
 		}
-		node = new NumberNode(atoi(_currentToken->lexeme().c_str()));
+		node = new NumberNode(atof(_currentToken->lexeme().c_str()));
 		advance();
 		return node;
 	}
