@@ -7,7 +7,6 @@
 #include "parser.h"
 #include "interpreter.h"
 
-// TODO: Assignement does not work as expected with only variable name, 
 
 int main(int argc, char** argv)
 {

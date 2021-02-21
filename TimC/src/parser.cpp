@@ -35,7 +35,7 @@ namespace TimC
 
 	StatementNode* Parser::assignment()
 	{
-		// AssignementNode* node = new AssignementNode();
+		uint32_t backupId = _id;
 
 		std::string leftValue = identifier();
 		ExpressionNode* rightValue;
@@ -44,12 +44,15 @@ namespace TimC
 			if (_currentToken->kind() == Token::Kind::EQUALS)
 			{
 				advance();
+				return new AssignementNode(leftValue, expr());
 			}
 		}
+
+		_id = backupId;
+		_currentToken = &_tokens[_id];
+
 		rightValue = expr();
-
-
-		return new AssignementNode(leftValue, rightValue);
+		return new AssignementNode("", rightValue);
 	}
 
 	ExpressionNode* Parser::expr()
