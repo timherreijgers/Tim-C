@@ -1,4 +1,6 @@
-expr    : term (('+'|'-') term)*
-term    : factor (('*'|'/') factor)*
-factor	: INT|FLOAT
+assignment	: (identifier '=')? expr
+expr    	: term (('+'|'-') term)*
+term    	: factor (('*'|'/') factor)*
+factor		: INT|FLOAT
 		: '(' expr ')'
+identifier	: ^[a-zA-Z]+$
