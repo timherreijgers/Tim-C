@@ -11,7 +11,10 @@ namespace TimC
 	{
 		EXPRESSION_NODE,
 		BINARY_OP_NODE,
-		NUMBER_NODE
+		NUMBER_NODE,
+
+		STATEMENT_NODE,
+		ASSIGNMENT_NODE
 	};
 
 	class ExpressionNode
@@ -55,4 +58,30 @@ namespace TimC
 		float _value;
 	};
 
+	class StatementNode
+	{
+	public:
+		virtual ~StatementNode() {}
+
+		virtual std::string string() const { return ""; }
+		virtual NodeType type() { return NodeType::STATEMENT_NODE; }
+
+	protected:
+		StatementNode() {}
+	};
+
+	class AssignementNode : public StatementNode
+	{
+	public:
+		AssignementNode(std::string identifier, ExpressionNode* value) : _identifier(identifier), _value(value) {}
+		~AssignementNode()
+		{
+			DELETE_IF_NOT_NULL_PTR(_value);
+		}
+		virtual std::string string() const;
+		virtual NodeType type() { return NodeType::ASSIGNMENT_NODE; }
+
+		std::string _identifier;
+		ExpressionNode* _value;
+	};
 }

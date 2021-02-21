@@ -19,4 +19,13 @@ namespace TimC
 		ss << _value;
 		return ss.str();
 	}
+
+	std::string AssignementNode::string() const
+	{
+		std::stringstream ss;
+		if (_identifier != "")
+			ss << _identifier << " = ";
+		ss << _value->string();
+		return ss.str();
+	}
 }

@@ -36,14 +36,14 @@ int main(int argc, char** argv)
 #endif
 
 			TimC::Parser parser(tokens);
-			TimC::ExpressionNode* ast = parser.parse();
+			TimC::StatementNode* ast = parser.parse();
 
 #ifdef DEBUG
 			std::cout << ast->string() << std::endl;
 #endif
 
 			TimC::Interpreter interpreter;
-			std::cout << interpreter.execute(ast) << std::endl;
+			// std::cout << interpreter.execute(ast) << std::endl;
 
 			delete ast;
 		}

@@ -15,7 +15,7 @@ namespace TimC
 		Parser(std::vector<Token>& tokens);
 		~Parser();
 
-		ExpressionNode* parse();
+		StatementNode* parse();
 	private:
 		std::vector<Token> _tokens;
 		Token *_currentToken;
@@ -23,9 +23,14 @@ namespace TimC
 
 		void advance();
 
+		StatementNode* assignment();
+
 		ExpressionNode* expr();
 		ExpressionNode* term();
 		ExpressionNode* factor();
+
+		// TODO: Add an arbitrary type for this, currenty it just returns an string for the identfier, that later can be used in a map
+		std::string identifier();
 	};
 }
 

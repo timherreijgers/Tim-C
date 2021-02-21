@@ -11,10 +11,10 @@ namespace TimC
 	{
 	}
 
-	ExpressionNode* Parser::parse()
+	StatementNode* Parser::parse()
 	{
-		ExpressionNode* root;
-		root = expr();
+		StatementNode* root;
+		root = assignment();
 		return root;
 	}
 
@@ -31,6 +31,25 @@ namespace TimC
 		{
 			_currentToken = &_tokens[_id];
 		}
+	}
+
+	StatementNode* Parser::assignment()
+	{
+		// AssignementNode* node = new AssignementNode();
+
+		std::string leftValue = identifier();
+		ExpressionNode* rightValue;
+		if (leftValue != "")
+		{
+			if (_currentToken->kind() == Token::Kind::EQUALS)
+			{
+				advance();
+			}
+		}
+		rightValue = expr();
+
+
+		return new AssignementNode(leftValue, rightValue);
 	}
 
 	ExpressionNode* Parser::expr()
@@ -108,5 +127,16 @@ namespace TimC
 
 		std::cerr << "Expected a number" << std::endl;
 		exit(-1);
+	}
+	std::string Parser::identifier()
+	{
+		std::string str;
+		if (_currentToken->kind() == Token::Kind::IDENTIFIER)
+		{
+			str = std::string(_currentToken->lexeme());
+			advance();
+			return str;
+		}
+		return "";
 	}
 }
