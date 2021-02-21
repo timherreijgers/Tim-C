@@ -1,8 +1,11 @@
 #include "lexer.h"
 #include <iostream>
 #include <map>
+#include <regex>
 
 static const std::string NUMBERS = "0123456789";
+static const std::string CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static const std::regex IDENTIFIER_REGEX = std::regex("^[a-zA-Z]+$");
 
 namespace TimC
 {
@@ -74,6 +77,15 @@ namespace TimC
 			{
 				advance();
 			}
+			else if (std::regex_match(std::string(1, c), IDENTIFIER_REGEX))
+			{
+				tokens.push_back(tokenizeIdentifier());
+			}
+			else if (c == '=')
+			{
+				tokens.push_back(Token(Token::Kind::EQUALS, "="));
+				advance();
+			}
 			else
 			{
 				tokens.push_back(Token(Token::Kind::UNEXPECTED));
@@ -114,10 +126,30 @@ namespace TimC
 		return Token(Token::Kind::NUMBER, number);
 	}
 
+	Token Lexer::tokenizeIdentifier()
+	{
+		std::string identifier = "";
+		identifier.push_back(_input[_index]);
+		advance();
+		while (_index != -1 && std::regex_match(std::string(1, _input[_index]), IDENTIFIER_REGEX))
+		{
+			identifier.push_back(_input[_index]);
+			advance();
+		}
+
+		if (!std::regex_match(identifier, IDENTIFIER_REGEX))
+		{
+			std::cerr << "Invalid identifier" << std::endl;
+			exit(-1);
+		}
+
+		return Token(Token::Kind::IDENTIFIER, identifier);
+	}
+
 	std::ostream& operator<<(std::ostream& os, const Token::Kind& kind)
 	{
 		static const char* const names[]{
-			"Number", "Plus", "Minus", "Multiply", "Divide", "Left parentisis", "Right parentisis", "Unexpected",
+			"Number", "Plus", "Minus", "Multiply", "Divide", "Left parentisis", "Right parentisis", "Identifier", "Equals", "Unexpected",
 		};
 		return os << names[static_cast<int>(kind)];
 	}

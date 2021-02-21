@@ -11,7 +11,7 @@ namespace TimC
 	public:
 		enum Kind
 		{
-			NUMBER, PLUS, MINUS, MULTIPLY, DIVIDE, LPARENTISIS, RPARENTISIS, UNEXPECTED
+			NUMBER, PLUS, MINUS, MULTIPLY, DIVIDE, LPARENTISIS, RPARENTISIS, IDENTIFIER, EQUALS, UNEXPECTED
 		};
 
 		Token(Kind kind);
@@ -38,6 +38,7 @@ namespace TimC
 
 		void advance();
 		Token tokenizeNumber();
+		Token tokenizeIdentifier();
 	};
 
 	std::ostream& operator<<(std::ostream& os, const Token::Kind& kind);
