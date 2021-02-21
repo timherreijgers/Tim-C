@@ -124,6 +124,12 @@ namespace TimC
 			std::cerr << "Expected a )" << std::endl;
 			exit(-1);
 		}
+		if (_currentToken->kind() == Token::Kind::IDENTIFIER)
+		{
+			node = new VariableNode(_currentToken->lexeme());
+			advance();
+			return node;
+		}
 
 		std::cerr << "Expected a number" << std::endl;
 		exit(-1);

@@ -7,8 +7,12 @@
 #include "parser.h"
 #include "interpreter.h"
 
+// TODO: Assignement does not work as expected with only variable name, 
+
 int main(int argc, char** argv)
 {
+	TimC::Interpreter interpreter;
+
 	if (argc == 1)
 	{
 		std::cout << "Welcome to the Tim-C shell" << std::endl << "Enter .exit to exit" << std::endl;
@@ -42,8 +46,7 @@ int main(int argc, char** argv)
 			std::cout << ast->string() << std::endl;
 #endif
 
-			TimC::Interpreter interpreter;
-			// std::cout << interpreter.execute(ast) << std::endl;
+			std::cout << interpreter.execute(ast) << std::endl;
 
 			delete ast;
 		}

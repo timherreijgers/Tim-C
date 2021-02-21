@@ -11,9 +11,32 @@ namespace TimC
 	{
 	}
 
-	float Interpreter::execute(ExpressionNode* node)
+	float Interpreter::execute(StatementNode* node)
 	{
-		return visitExpressionNode(node);
+		return visitStatementNode(node);
+	}
+
+	float Interpreter::visitStatementNode(StatementNode* node)
+	{
+		if (node->type() == NodeType::ASSIGNMENT_NODE)
+		{
+			return visitAssignementNode((AssignementNode*) node);
+		}
+		else
+		{
+			std::cerr << "Uknown node!" << std::endl;
+		}
+	}
+
+	float Interpreter::visitAssignementNode(AssignementNode* node)
+	{
+		std::string variable = node->_identifier;
+		float value = visitExpressionNode(node->_value);
+		if (variable != "")
+		{
+			_variableMap[variable] = value;
+		}
+		return value;
 	}
 
 	float Interpreter::visitExpressionNode(ExpressionNode* node)
@@ -25,7 +48,11 @@ namespace TimC
 		else if (node->type() == NodeType::NUMBER_NODE)
 		{
 			return visitNumberNode((NumberNode*) node);
-		} 
+		}
+		else if (node->type() == NodeType::VARIABLE_NODE)
+		{
+			return visitVariableNode((VariableNode*) node);
+		}
 		else
 		{
 			std::cerr << "Uknown node!" << std::endl;
@@ -54,5 +81,27 @@ namespace TimC
 	float Interpreter::visitNumberNode(NumberNode* node)
 	{
 		return node->_value;
+	}
+
+	float Interpreter::visitVariableNode(VariableNode* node)
+	{
+		bool variableExists = false;
+		for (std::map<std::string, float>::iterator iter = _variableMap.begin(); iter != _variableMap.end(); ++iter)
+		{
+			std::string key = iter->first;
+			if (key == node->_identifier)
+			{
+				variableExists = true;
+				break;
+			}
+		}
+
+		if (!variableExists)
+		{
+			std::cerr << "Variable " << node->_identifier << " does not exist" << std::endl;
+			exit(-1);
+		}
+
+		return _variableMap[node->_identifier];
 	}
 }

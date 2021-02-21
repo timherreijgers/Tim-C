@@ -3,4 +3,5 @@ expr    	: term (('+'|'-') term)*
 term    	: factor (('*'|'/') factor)*
 factor		: INT|FLOAT
 		: '(' expr ')'
+		: identifier
 identifier	: ^[a-zA-Z]+$

@@ -12,6 +12,7 @@ namespace TimC
 		EXPRESSION_NODE,
 		BINARY_OP_NODE,
 		NUMBER_NODE,
+		VARIABLE_NODE,
 
 		STATEMENT_NODE,
 		ASSIGNMENT_NODE
@@ -56,6 +57,17 @@ namespace TimC
 		std::string string() const override;
 
 		float _value;
+	};
+
+	class VariableNode : public ExpressionNode
+	{
+	public:
+		VariableNode(std::string identifier) : _identifier(identifier) {}
+		~VariableNode() {}
+		virtual NodeType type() override { return NodeType::VARIABLE_NODE; }
+		std::string string() const override;
+
+		std::string _identifier;
 	};
 
 	class StatementNode
