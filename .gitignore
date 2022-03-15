@@ -5,3 +5,6 @@ bin
 *.vcxproj.user
 *.sln
 Makefile
+.idea
+.DS_Store
+cmake-*

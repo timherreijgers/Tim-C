@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
-#include <iomanip>
 
 #include "lexer.h"
-#include "Nodes.h"
+#include "nodes.h"
 #include "parser.h"
 #include "interpreter.h"
 

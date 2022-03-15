@@ -26,6 +26,7 @@ namespace TimC
 		{
 			std::cerr << "Uknown node!" << std::endl;
 		}
+        return 0.0f;
 	}
 
 	float Interpreter::visitAssignementNode(AssignementNode* node)
@@ -76,6 +77,7 @@ namespace TimC
 		case 0x00:
 			return visitExpressionNode(node->_left);
 		}
+        return 0.0f;
 	}
 
 	float Interpreter::visitNumberNode(NumberNode* node)
