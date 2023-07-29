@@ -1,11 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "lexer.h"
-#include "nodes.h"
-#include "parser.h"
-#include "interpreter.h"
-
+#include "src/interpreter.h"
+#include "src/lexer.h"
+#include "src/nodes.h"
+#include "src/parser.h"
 
 int main(int argc, char** argv)
 {
