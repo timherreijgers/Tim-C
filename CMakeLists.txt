@@ -3,6 +3,8 @@ project(TimC)
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_subdirectory(third-party)
+
 add_executable(TimC 
 	src/interpreter.cpp
 	src/interpreter.h
