@@ -5,13 +5,18 @@
 
 #pragma once
 
-#include "token.h"
+#include "token_type.h"
 
-#include <string_view>
+#include <optional>
+#include <string>
 
 namespace TimC::Lexer
 {
 
-[[nodiscard]] auto tokenize(std::string_view input) noexcept -> std::vector<Token>;
+struct Token
+{
+    TokenType tokenType;
+    std::optional<std::string> lexeme;
+};
 
 } // namespace TimC::Lexer

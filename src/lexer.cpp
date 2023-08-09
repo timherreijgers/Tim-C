@@ -1,4 +1,6 @@
 #include "lexer.h"
+#include "../lexer/include/lexer.h"
+
 #include <iostream>
 #include <map>
 #include <regex>
@@ -153,5 +155,4 @@ namespace TimC
 		};
 		return os << names[static_cast<int>(kind)];
 	}
-
 }
