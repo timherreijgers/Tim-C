@@ -10,7 +10,7 @@ namespace TimC::Lexer
 
 enum TokenType
 {
-
+    NUMBER
 };
 
 } // namespace TimC::Lexer

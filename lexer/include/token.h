@@ -17,6 +17,17 @@ struct Token
 {
     TokenType tokenType;
     std::optional<std::string> lexeme;
+
+    bool operator==(const Token &rhs) const
+    {
+        return tokenType == rhs.tokenType &&
+               lexeme == rhs.lexeme;
+    }
+
+    bool operator!=(const Token &rhs) const
+    {
+        return !(rhs == *this);
+    }
 };
 
 } // namespace TimC::Lexer
