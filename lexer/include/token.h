@@ -13,7 +13,7 @@
 namespace TimC::Lexer
 {
 
-struct Token
+struct  Token
 {
     TokenType tokenType;
     std::optional<std::string> lexeme;
