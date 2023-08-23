@@ -15,7 +15,7 @@ namespace TimC::Lexer
 [[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeExitKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 
-auto Lexer::tokenize(std::string_view input) noexcept -> std::vector<Token>
+auto tokenize(std::string_view input) noexcept -> std::vector<Token>
 {
     std::vector<Token> tokens{};
     size_t index = 0;
@@ -68,13 +68,13 @@ auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size
     return index;
 }
 
-[[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t
+[[nodiscard]] static auto tokenizeSemiColumn(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
 {
     tokens.emplace_back(TokenType::SEMI_COLUMN);
     return 1UL;
 }
 
-[[nodiscard]] static auto tokenizeExitKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t
+[[nodiscard]] static auto tokenizeExitKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
 {
     using namespace std::literals::string_literals;
 
