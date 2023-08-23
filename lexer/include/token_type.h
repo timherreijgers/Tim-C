@@ -10,9 +10,9 @@ namespace TimC::Lexer
 
 enum TokenType
 {
+    KEYWORD_EXIT,
     NUMBER,
-    EQUALS,
-    IDENTIFIER
+    SEMI_COLUMN
 };
 
 } // namespace TimC::Lexer

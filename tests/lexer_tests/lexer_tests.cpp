@@ -21,42 +21,13 @@ protected:
     }
 };
 
-TEST_F(LexerTests, tokenizeCalledWithNumberFiveReturnsNumberToken)
+TEST_F(LexerTests, TokenizeExitStatementReturnsCorrectTokens)
 {
-    const Token expectedToken{
-        TokenType::NUMBER,
-        "5"
-    };
+    std::string code = "exit 5;";
 
-    const auto tokens = tokenize("5");
+    const auto tokens = Lexer::tokenize(code);
 
-    ASSERT_EQ(tokens.size(), 1);
-    ASSERT_EQ(tokens[0], expectedToken);
-}
-
-TEST_F(LexerTests, tokenizeCalledWithEqualsReturnsEqualsToken)
-{
-    const Token expectedToken {
-        TokenType::EQUALS
-    };
-
-    const auto tokens = tokenize("=");
-
-    ASSERT_EQ(tokens.size(), 1);
-    ASSERT_EQ(tokens[0], expectedToken);
-}
-
-TEST_F(LexerTests, tokenizeCalledWithIdentifierReturnsIdentifierToken)
-{
-    const Token expectedToken {
-        TokenType::IDENTIFIER,
-        "identifier_name"
-    };
-
-    const auto tokens = tokenize("identifier_name");
-
-    ASSERT_EQ(tokens.size(), 1);
-    ASSERT_EQ(tokens[0], expectedToken);
+    ASSERT_THAT(tokens, ::testing::ElementsAre(Token{TokenType::KEYWORD_EXIT}, Token{TokenType::NUMBER, "5"}, Token{TokenType::SEMI_COLUMN}));
 }
 
 } // namespace TimC::Lexer

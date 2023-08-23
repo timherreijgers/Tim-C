@@ -5,53 +5,81 @@
 
 #include "lexer.h"
 
+#include <cctype>
+#include <string>
+
 namespace TimC::Lexer
 {
 
-[[nodiscard]] auto tokenizeEquals(std::string_view input, std::vector<Token> & tokens) noexcept -> size_t;
-[[nodiscard]] auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) noexcept -> size_t;
-
-[[nodiscard]] auto isNumeric(char c) noexcept -> bool;
+[[nodiscard]] static auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeExitKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 
 auto Lexer::tokenize(std::string_view input) noexcept -> std::vector<Token>
 {
-    size_t index = 0;
     std::vector<Token> tokens{};
+    size_t index = 0;
 
-    if (input[index] == '=')
+    while(index < input.size())
     {
-        index += tokenizeEquals(input, tokens);
-    }
+        const auto stringFromIndex = input.substr(index, input.size() - index);
 
-    if (isNumeric(input[index]))
-    {
-        index += tokenizeNumber(input, tokens);
+        if (std::isdigit(input[index]))
+        {
+            index += tokenizeNumber(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (input[index] == ';')
+        {
+            index += tokenizeSemiColumn(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.starts_with("exit"))
+        {
+            index += tokenizeExitKeyword(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (std::isspace(input[index]))
+        {
+            index ++;
+            continue;
+        }
     }
 
     return tokens;
 }
 
-auto tokenizeEquals(std::string_view /*input*/, std::vector<Token> & tokens) noexcept -> size_t
+auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size_t
 {
-    tokens.emplace_back(TokenType::EQUALS);
-    return 1;
-}
+    Token token{TokenType::NUMBER};
+    size_t index = 0;
 
-auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) noexcept -> size_t
-{
-    size_t numberCharacterCount = 0;
-
-    while(isNumeric(input[numberCharacterCount++]))
+    while(std::isdigit(input[index]))
     {
+        index++;
     }
 
-    tokens.emplace_back(TokenType::NUMBER, std::string(input.substr(0, numberCharacterCount)));
-    return numberCharacterCount;
+    token.lexeme = std::string(input.substr(0, index));
+    tokens.push_back(std::move(token));
+
+    return index;
 }
 
-auto isNumeric(char c) noexcept -> bool
+[[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t
 {
-    return c >= '0' && c <= '9';
+    tokens.emplace_back(TokenType::SEMI_COLUMN);
+    return 1UL;
+}
+
+[[nodiscard]] static auto tokenizeExitKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t
+{
+    using namespace std::literals::string_literals;
+
+    tokens.emplace_back(TokenType::KEYWORD_EXIT);
+    return "exit"s.size();
 }
 
 } // namespace TimC::Lexer
