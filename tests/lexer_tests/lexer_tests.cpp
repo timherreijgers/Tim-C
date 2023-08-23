@@ -21,7 +21,7 @@ protected:
     }
 };
 
-TEST_F(LexerTests, tokenizeCalledWithNumberReturnsNumberToken)
+TEST_F(LexerTests, tokenizeCalledWithNumberFiveReturnsNumberToken)
 {
     const Token expectedToken{
         TokenType::NUMBER,
@@ -29,6 +29,31 @@ TEST_F(LexerTests, tokenizeCalledWithNumberReturnsNumberToken)
     };
 
     const auto tokens = tokenize("5");
+
+    ASSERT_EQ(tokens.size(), 1);
+    ASSERT_EQ(tokens[0], expectedToken);
+}
+
+TEST_F(LexerTests, tokenizeCalledWithEqualsReturnsEqualsToken)
+{
+    const Token expectedToken {
+        TokenType::EQUALS
+    };
+
+    const auto tokens = tokenize("=");
+
+    ASSERT_EQ(tokens.size(), 1);
+    ASSERT_EQ(tokens[0], expectedToken);
+}
+
+TEST_F(LexerTests, tokenizeCalledWithIdentifierReturnsIdentifierToken)
+{
+    const Token expectedToken {
+        TokenType::IDENTIFIER,
+        "identifier_name"
+    };
+
+    const auto tokens = tokenize("identifier_name");
 
     ASSERT_EQ(tokens.size(), 1);
     ASSERT_EQ(tokens[0], expectedToken);

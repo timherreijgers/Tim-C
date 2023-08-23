@@ -18,6 +18,16 @@ struct Token
     TokenType tokenType;
     std::optional<std::string> lexeme;
 
+    explicit Token(TokenType tokenType_) : tokenType(tokenType_)
+    {
+
+    }
+
+    explicit Token(TokenType tokenType_, std::string lexeme_) : tokenType(tokenType_), lexeme(lexeme_)
+    {
+
+    }
+
     bool operator==(const Token &rhs) const
     {
         return tokenType == rhs.tokenType &&
