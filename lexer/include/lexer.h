@@ -8,6 +8,7 @@
 #include "token.h"
 
 #include <string_view>
+#include <vector>
 
 namespace TimC::Lexer
 {

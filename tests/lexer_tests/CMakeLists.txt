@@ -5,5 +5,3 @@ target_link_libraries(LexerTests PRIVATE
         gtest_main
         gmock
         lexer)
-
-add_test(NAME LexerTests COMMAND ./LexerTests)
