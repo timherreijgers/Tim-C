@@ -4,6 +4,7 @@ project(TimC)
 set(CMAKE_CXX_STANDARD 23)
 
 add_subdirectory(lexer)
+add_subdirectory(parser)
 add_subdirectory(third-party)
 add_subdirectory(tests)
 
