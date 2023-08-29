@@ -11,5 +11,11 @@ identifier	: ^[a-zA-Z]+$
 
 #### New grammar
 
-exit        : 'exit' number ';'
-number      : [0-9]+
+statement_list  : (statement ';')+
+statement       : exit
+                : assignment
+assignment      : 'let' identifier type number
+exit            : 'exit' number
+number          : [0-9]+
+identifier      : [a-zA-Z]+[a-zA-Z0-9]+
+type            : 'int64'
