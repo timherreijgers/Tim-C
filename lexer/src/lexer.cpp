@@ -17,6 +17,9 @@ using namespace std::literals::string_literals;
 [[nodiscard]] static auto tokenizeLetKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeColon(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeEquals(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeType(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeIdentifier(std::string_view input, std::vector<Token> & tokens) -> size_t;
 
 auto tokenize(std::string_view input) noexcept -> std::vector<Token>
@@ -46,9 +49,27 @@ auto tokenize(std::string_view input) noexcept -> std::vector<Token>
             continue;
         }
 
+        if (stringFromIndex.front() == ':')
+        {
+            index += tokenizeColon(stringFromIndex, tokens);
+            continue;
+        }
+
         if (stringFromIndex.front() == ';')
         {
             index += tokenizeSemiColumn(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.front() == '=')
+        {
+            index += tokenizeEquals(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.starts_with("int64"))
+        {
+            index += tokenizeType(stringFromIndex, tokens);
             continue;
         }
 
@@ -68,7 +89,7 @@ auto tokenize(std::string_view input) noexcept -> std::vector<Token>
     return tokens;
 }
 
-[[nodiscard]] static auto tokenizeExitKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
+auto tokenizeExitKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
 {
     tokens.emplace_back(TokenType::KEYWORD_EXIT);
     return "exit"s.size();
@@ -96,11 +117,30 @@ auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size
     return index;
 }
 
-[[nodiscard]] static auto tokenizeSemiColumn(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
+auto tokenizeSemiColumn(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
 {
     tokens.emplace_back(TokenType::SEMI_COLUMN);
     return 1UL;
 }
+
+auto tokenizeColon(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
+{
+    tokens.emplace_back(TokenType::COLON);
+    return 1UL;
+}
+
+auto tokenizeEquals(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
+{
+    tokens.emplace_back(TokenType::EQUALS);
+    return 1UL;
+}
+
+auto tokenizeType(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
+{
+    tokens.emplace_back(TokenType::TYPE, "int64");
+    return "int64"s.size();
+}
+
 
 auto tokenizeIdentifier(std::string_view input, std::vector<Token> &tokens) -> size_t
 {

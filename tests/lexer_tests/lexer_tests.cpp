@@ -9,6 +9,8 @@
 #include <gtest/gtest-matchers.h>
 #include <gmock/gmock-matchers.h>
 
+#include <iostream>
+
 namespace TimC::Lexer
 {
 
