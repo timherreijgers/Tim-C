@@ -75,7 +75,7 @@ auto parseScopeNode(const std::span<Lexer::Token> &tokens) -> AbstractSyntaxTree
     if (tokens[index++].tokenType != Lexer::TokenType::BRACKET_OPEN)
         throw std::runtime_error("Expected '{' after function identifier");
 
-    if (tokens[index++].tokenType != Lexer::TokenType::BRACE_CLOSE)
+    if (tokens[index++].tokenType != Lexer::TokenType::BRACKET_CLOSE)
         throw std::runtime_error("Expected '}' after function identifier");
 
     return scopeNode;
