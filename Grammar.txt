@@ -11,12 +11,15 @@ identifier	: ^[a-zA-Z]+$
 
 #### New grammar
 
-statement_list  : (statement ';')+
-statement       : exit
-                : assignment
-assignment      : 'let' identifier type number
-exit            : 'exit' number
-				: 'exit' identifier
-number          : [0-9]+
-identifier      : [a-zA-Z]+[a-zA-Z0-9]+
-type            : 'int64'
+program                 : ([assignment] ';' | [function_declaration])+
+function_declaration    : 'fn' [identifier] '(' ')' '->' [type] [scope]
+statement               : 'exit' [factor]
+                        : assignment
+scope                   : '{' [statement]* '}'
+assignment              : 'let' [identifier] [type] [factor]
+expression              : [number]
+                        : [identifier]
+number                  : [0-9]+
+identifier              : [a-zA-Z]+[a-zA-Z0-9]+
+type                    : 'int64'
+
