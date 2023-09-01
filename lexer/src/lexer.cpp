@@ -13,12 +13,18 @@ namespace TimC::Lexer
 
 using namespace std::literals::string_literals;
 
+[[nodiscard]] static auto tokenizeFnKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeExitKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeLetKeyword(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeNumber(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeSemiColumn(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeColon(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeEquals(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeOpeningBrace(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeClosingBrace(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeOpeningBracket(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeClosingBracket(std::string_view input, std::vector<Token> & tokens) -> size_t;
+[[nodiscard]] static auto tokenizeArrow(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeType(std::string_view input, std::vector<Token> & tokens) -> size_t;
 [[nodiscard]] static auto tokenizeIdentifier(std::string_view input, std::vector<Token> & tokens) -> size_t;
 
@@ -30,6 +36,12 @@ auto tokenize(std::string_view input) noexcept -> std::vector<Token>
     while(index < input.size())
     {
         const auto stringFromIndex = input.substr(index, input.size() - index);
+
+        if (stringFromIndex.starts_with("fn"))
+        {
+            index += tokenizeFnKeyword(stringFromIndex, tokens);
+            continue;
+        }
 
         if (stringFromIndex.starts_with("exit"))
         {
@@ -67,6 +79,36 @@ auto tokenize(std::string_view input) noexcept -> std::vector<Token>
             continue;
         }
 
+        if (stringFromIndex.front() == '(')
+        {
+            index += tokenizeOpeningBrace(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.front() == ')')
+        {
+            index += tokenizeClosingBrace(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.front() == '{')
+        {
+            index += tokenizeOpeningBracket(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.front() == '}')
+        {
+            index += tokenizeClosingBracket(stringFromIndex, tokens);
+            continue;
+        }
+
+        if (stringFromIndex.starts_with("->"))
+        {
+            index += tokenizeArrow(stringFromIndex, tokens);
+            continue;
+        }
+
         if (stringFromIndex.starts_with("int64"))
         {
             index += tokenizeType(stringFromIndex, tokens);
@@ -87,6 +129,11 @@ auto tokenize(std::string_view input) noexcept -> std::vector<Token>
     }
 
     return tokens;
+}
+
+auto tokenizeFnKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::KEYWORD_FN);
+    return "fn"s.size();
 }
 
 auto tokenizeExitKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
@@ -135,12 +182,36 @@ auto tokenizeEquals(std::string_view /*input*/, std::vector<Token> & tokens) -> 
     return 1UL;
 }
 
+auto tokenizeOpeningBrace(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::BRACE_OPEN);
+    return 1UL;
+}
+
+auto tokenizeClosingBrace(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::BRACE_CLOSE);
+    return 1UL;
+}
+
+auto tokenizeOpeningBracket(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::BRACKET_OPEN);
+    return 1UL;
+}
+
+auto tokenizeClosingBracket(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::BRACKET_CLOSE);
+    return 1UL;
+}
+
+auto tokenizeArrow(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
+    tokens.emplace_back(TokenType::ARROW);
+    return "->"s.size();
+}
+
 auto tokenizeType(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t
 {
     tokens.emplace_back(TokenType::TYPE, "int64");
     return "int64"s.size();
 }
-
 
 auto tokenizeIdentifier(std::string_view input, std::vector<Token> &tokens) -> size_t
 {

@@ -12,12 +12,18 @@ enum TokenType
 {
     KEYWORD_EXIT,
     KEYWORD_LET,
+    KEYWORD_FN,
     NUMBER,
     SEMI_COLUMN,
     IDENTIFIER,
     COLON,
     TYPE,
-    EQUALS
+    EQUALS,
+    BRACE_OPEN,
+    BRACE_CLOSE,
+    BRACKET_OPEN,
+    BRACKET_CLOSE,
+    ARROW,
 };
 
 } // namespace TimC::Lexer
