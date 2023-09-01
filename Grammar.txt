@@ -1,0 +1,25 @@
+assignment	: (identifier '=')? expr
+expr    	: term (('+'|'-') term)*
+term    	: factor (('*'|'/') factor)*
+factor		: INT|FLOAT
+		: '(' expr ')'
+		: identifier
+identifier	: ^[a-zA-Z]+$
+
+
+
+
+#### New grammar
+
+program                 : ([assignment] ';' | [function_declaration])+
+function_declaration    : 'fn' [identifier] '(' ')' '->' [type] [scope]
+statement               : 'exit' [factor]
+                        : assignment
+scope                   : '{' [statement]* '}'
+assignment              : 'let' [identifier] [type] [factor]
+expression              : [number]
+                        : [identifier]
+number                  : [0-9]+
+identifier              : [a-zA-Z]+[a-zA-Z0-9]+
+type                    : 'int64'
+
