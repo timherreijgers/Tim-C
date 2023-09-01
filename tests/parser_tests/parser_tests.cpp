@@ -21,18 +21,27 @@ protected:
     }
 };
 
-TEST_F(ParserTest, CallingParseWithExitTokenListReturnsCorrectAbstractSyntaxTree)
+TEST_F(ParserTest, CallingParseWithEmptyMainTokenListReturnsCorrectAbstractSyntaxTree)
 {
     std::vector<Lexer::Token> tokens
-    {
-        Lexer::Token(Lexer::TokenType::KEYWORD_EXIT),
-        Lexer::Token(Lexer::TokenType::NUMBER, "5"),
-        Lexer::Token(Lexer::TokenType::SEMI_COLUMN)
-    };
+            {
+                    Lexer::Token(Lexer::TokenType::KEYWORD_FN),
+                    Lexer::Token(Lexer::TokenType::IDENTIFIER, "main"),
+                    Lexer::Token(Lexer::TokenType::BRACE_OPEN),
+                    Lexer::Token(Lexer::TokenType::BRACE_CLOSE),
+                    Lexer::Token(Lexer::TokenType::ARROW),
+                    Lexer::Token(Lexer::TokenType::TYPE, "int64"),
+                    Lexer::Token(Lexer::TokenType::BRACKET_OPEN),
+                    Lexer::Token(Lexer::TokenType::BRACKET_CLOSE),
+            };
 
-    const auto exitNode = Parser::parse(tokens);
+    const auto program = Parser::parse(tokens);
+    ASSERT_EQ(program.content.size(), 1);
 
-    ASSERT_DOUBLE_EQ(exitNode.numberNode.number, 5);
+    const auto &functionDeclarationNode = std::get<AbstractSyntaxTree::FunctionDeclarationNode>(program.content[0]);
+    ASSERT_EQ(functionDeclarationNode.functionName.identifier, "main");
+    ASSERT_EQ(functionDeclarationNode.returnType.type, "int64");
+    ASSERT_EQ(functionDeclarationNode.scope.statements.size(), 0);
 }
 
 } // namespace TimC::Lexer

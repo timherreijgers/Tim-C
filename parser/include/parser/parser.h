@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "parser/abstract_syntax_tree/exit_node.h"
+#include "parser/abstract_syntax_tree/program_node.h"
 
 #include "token.h"
 
@@ -14,6 +14,6 @@
 namespace TimC::Parser
 {
 
-[[nodiscard]] auto parse(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ExitNode;
+[[nodiscard]] auto parse(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ProgramNode;
 
 } // namespace TimC::Lexer
