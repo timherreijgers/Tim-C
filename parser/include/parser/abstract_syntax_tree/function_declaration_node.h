@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include "identifier_node.h"
-#include "type_node.h"
 #include "scope_node.h"
 
 #include <variant>
@@ -23,8 +21,8 @@ struct FunctionDeclarationNode
     FunctionDeclarationNode& operator=(FunctionDeclarationNode &) = default;
     FunctionDeclarationNode& operator=(FunctionDeclarationNode &&) = default;
 
-    IdentifierNode functionName;
-    TypeNode returnType;
+    std::string functionName;
+    std::string returnType;
     ScopeNode scope;
 };
 

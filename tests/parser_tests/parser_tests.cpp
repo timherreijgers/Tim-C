@@ -39,8 +39,8 @@ TEST_F(ParserTest, CallingParseWithEmptyMainTokenListReturnsCorrectAbstractSynta
     ASSERT_EQ(program.content.size(), 1);
 
     const auto &functionDeclarationNode = std::get<AbstractSyntaxTree::FunctionDeclarationNode>(program.content[0]);
-    ASSERT_EQ(functionDeclarationNode.functionName.identifier, "main");
-    ASSERT_EQ(functionDeclarationNode.returnType.type, "int64");
+    ASSERT_EQ(functionDeclarationNode.functionName, "main");
+    ASSERT_EQ(functionDeclarationNode.returnType, "int64");
     ASSERT_EQ(functionDeclarationNode.scope.statements.size(), 0);
 }
 
