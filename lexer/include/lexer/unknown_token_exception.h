@@ -13,7 +13,7 @@ namespace TimC::Lexer
 class UnknownTokenException : public std::runtime_error
 {
 public:
-    explicit UnknownTokenException(const std::string &errorMessage) : std::runtime_error(errorMessage) {}
+    using std::runtime_error::runtime_error;
 };
 
 } // namespace TimC::Lexer
