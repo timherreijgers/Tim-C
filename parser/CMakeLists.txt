@@ -1,8 +1,11 @@
 set(PARSER_SOURCES
-        src/parser.cpp)
+        src/parser.cpp
+        src/token_buffer.h
+        src/token_buffer.cpp)
 
 set(PARSER_HEADERS
         include/parser/parser.h
+        include/parser/unexpected_token_exception.h
 
         include/parser/abstract_syntax_tree/assignment_node.h
         include/parser/abstract_syntax_tree/exit_node.h
