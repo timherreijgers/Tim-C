@@ -16,11 +16,6 @@ namespace TimC::Lexer
 
 class LexerTests : public ::testing::Test
 {
-protected:
-    void SetUp() override
-    {
-
-    }
 };
 
 TEST_F(LexerTests, TokenizeExitStatementReturnsCorrectTokens)

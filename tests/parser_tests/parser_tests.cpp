@@ -14,11 +14,6 @@ namespace TimC::Parser
 
 class ParserTest : public ::testing::Test
 {
-protected:
-    void SetUp() override
-    {
-
-    }
 };
 
 TEST_F(ParserTest, CallingParseWithEmptyMainTokenListReturnsCorrectAbstractSyntaxTree)
