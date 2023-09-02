@@ -8,7 +8,7 @@
 namespace TimC::Lexer
 {
 
-enum TokenType
+enum class TokenType
 {
     KEYWORD_EXIT,
     KEYWORD_LET,
