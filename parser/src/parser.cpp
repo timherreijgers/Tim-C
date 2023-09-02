@@ -5,78 +5,79 @@
 
 #include "parser/parser.h"
 
+#include "parser/unexpected_token_exception.h"
+#include "token_buffer.h"
+
 #include <span>
-#include <stdexcept>
 
 namespace TimC::Parser
 {
 
-[[nodiscard]] static auto parseProgramNode(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ProgramNode;
-[[nodiscard]] static auto parseFunctionDeclarationNode(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::FunctionDeclarationNode;
-[[nodiscard]] static auto parseScopeNode(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ScopeNode;
+[[nodiscard]] static auto parseProgramNode(TokenBuffer & tokens) -> AbstractSyntaxTree::ProgramNode;
+[[nodiscard]] static auto parseFunctionDeclarationNode(TokenBuffer & tokens) -> AbstractSyntaxTree::FunctionDeclarationNode;
+[[nodiscard]] static auto parseScopeNode(TokenBuffer & tokens) -> AbstractSyntaxTree::ScopeNode;
 
-static size_t index = 0;
-
-[[nodiscard]] auto parse(const std::span<Lexer::Token> &tokens) -> AbstractSyntaxTree::ProgramNode
+[[nodiscard]] auto parse(const std::vector<Lexer::Token> &tokens) -> AbstractSyntaxTree::ProgramNode
 {
-    return parseProgramNode(tokens);
+    TokenBuffer tokenBuffer(tokens);
+    return parseProgramNode(tokenBuffer);
 }
 
-auto parseProgramNode(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ProgramNode
+static auto parseProgramNode(TokenBuffer & tokens) -> AbstractSyntaxTree::ProgramNode
 {
     AbstractSyntaxTree::ProgramNode programNode{};
 
-    if (tokens[index].tokenType == Lexer::TokenType::KEYWORD_FN)
+    if (tokens.peek().tokenType == Lexer::TokenType::KEYWORD_FN)
     {
-        index++;
+        tokens.advance();
         programNode.content.emplace_back(parseFunctionDeclarationNode(tokens));
         return programNode;
     }
-    else if (tokens[index].tokenType == Lexer::TokenType::KEYWORD_LET)
+    else if (tokens.peek().tokenType == Lexer::TokenType::KEYWORD_LET)
     {
         throw std::runtime_error("Variable assignment not implemented yet");
     }
 
-    throw std::runtime_error("Expected either variable declaration or function declaration");
+    throw UnexpectedTokenException("Expected either variable declaration or function declaration");
 }
 
-auto parseFunctionDeclarationNode(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::FunctionDeclarationNode
+static auto parseFunctionDeclarationNode(TokenBuffer & tokens) -> AbstractSyntaxTree::FunctionDeclarationNode
 {
     AbstractSyntaxTree::FunctionDeclarationNode functionDeclarationNode{};
 
-    if (tokens[index].tokenType != Lexer::TokenType::IDENTIFIER)
-        throw std::runtime_error("Expected function identifier after 'fn' keyword");
+    if (tokens.peek().tokenType != Lexer::TokenType::IDENTIFIER)
+        throw UnexpectedTokenException("Expected function identifier after 'fn' keyword");
 
-    functionDeclarationNode.functionName = *tokens[index++].lexeme;
+    functionDeclarationNode.functionName = *tokens.pop().lexeme;
 
-    if (tokens[index++].tokenType != Lexer::TokenType::BRACE_OPEN)
-        throw std::runtime_error("Expected '(' after function identifier");
+    if (tokens.pop().tokenType != Lexer::TokenType::BRACE_OPEN)
+        throw UnexpectedTokenException("Expected '(' after function identifier");
 
-    if (tokens[index++].tokenType != Lexer::TokenType::BRACE_CLOSE)
-        throw std::runtime_error("Expected ')' after function '('");
+    if (tokens.pop().tokenType != Lexer::TokenType::BRACE_CLOSE)
+        throw UnexpectedTokenException("Expected ')' after function '('");
 
-    if (tokens[index++].tokenType != Lexer::TokenType::ARROW)
-        throw std::runtime_error("Expected '->' after function identifier");
+    if (tokens.pop().tokenType != Lexer::TokenType::ARROW)
+        throw UnexpectedTokenException("Expected '->' after function identifier");
 
-    if (tokens[index].tokenType != Lexer::TokenType::TYPE)
-        throw std::runtime_error("Expected return type after function identifier");
+    if (tokens.peek().tokenType != Lexer::TokenType::TYPE)
+        throw UnexpectedTokenException("Expected return type after function identifier");
 
-    functionDeclarationNode.returnType = *tokens[index++].lexeme;
+    functionDeclarationNode.returnType = *tokens.pop().lexeme;
 
     functionDeclarationNode.scope = parseScopeNode(tokens);
 
     return functionDeclarationNode;
 }
 
-auto parseScopeNode(const std::span<Lexer::Token> &tokens) -> AbstractSyntaxTree::ScopeNode
+static auto parseScopeNode(TokenBuffer & tokens) -> AbstractSyntaxTree::ScopeNode
 {
     AbstractSyntaxTree::ScopeNode scopeNode{};
 
-    if (tokens[index++].tokenType != Lexer::TokenType::BRACKET_OPEN)
-        throw std::runtime_error("Expected '{' after function identifier");
+    if (tokens.pop().tokenType != Lexer::TokenType::BRACKET_OPEN)
+        throw UnexpectedTokenException("Expected '{' after function identifier");
 
-    if (tokens[index++].tokenType != Lexer::TokenType::BRACKET_CLOSE)
-        throw std::runtime_error("Expected '}' after function identifier");
+    if (tokens.pop().tokenType != Lexer::TokenType::BRACKET_CLOSE)
+        throw UnexpectedTokenException("Expected '}' after function identifier");
 
     return scopeNode;
 }

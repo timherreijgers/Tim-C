@@ -14,6 +14,6 @@
 namespace TimC::Parser
 {
 
-[[nodiscard]] auto parse(const std::span<Lexer::Token> & tokens) -> AbstractSyntaxTree::ProgramNode;
+[[nodiscard]] auto parse(const std::vector<Lexer::Token> & tokens) -> AbstractSyntaxTree::ProgramNode;
 
 } // namespace TimC::Lexer
