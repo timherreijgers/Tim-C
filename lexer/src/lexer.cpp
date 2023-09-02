@@ -94,7 +94,7 @@ static auto getTokenizeFunction(std::string_view input) -> ParsingFunction
         return tokenizeIdentifier;
 
     if (std::isspace(input.front()))
-        return [](std::string_view, std::vector<Token>&){return 1UL;};
+        return [](std::string_view, const std::vector<Token>&){return 1UL;};
 
     throw UnknownTokenException("Unknown token "s + std::string(input.substr(0, 10)));
 }
