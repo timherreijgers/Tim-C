@@ -3,7 +3,7 @@
  * Licensed using the MIT license
  */
 
-#include "lexer.h"
+#include "lexer/lexer.h"
 
 #include <gtest/gtest.h>
 #include <gtest/gtest-matchers.h>
@@ -16,11 +16,6 @@ namespace TimC::Lexer
 
 class LexerTests : public ::testing::Test
 {
-protected:
-    void SetUp() override
-    {
-
-    }
 };
 
 TEST_F(LexerTests, TokenizeExitStatementReturnsCorrectTokens)

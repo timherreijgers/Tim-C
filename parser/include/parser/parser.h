@@ -7,7 +7,7 @@
 
 #include "parser/abstract_syntax_tree/program_node.h"
 
-#include "token.h"
+#include "lexer/token.h"
 
 #include <span>
 

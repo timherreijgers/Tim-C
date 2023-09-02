@@ -5,7 +5,6 @@
 
 #include "gtest/gtest.h"
 #include "gtest/gtest-matchers.h"
-#include "gmock/gmock-matchers.h"
 
 #include "parser/parser.h"
 
@@ -14,25 +13,22 @@ namespace TimC::Parser
 
 class ParserTest : public ::testing::Test
 {
-protected:
-    void SetUp() override
-    {
-
-    }
 };
 
 TEST_F(ParserTest, CallingParseWithEmptyMainTokenListReturnsCorrectAbstractSyntaxTree)
 {
+    using enum TimC::Lexer::TokenType;
+
     std::vector<Lexer::Token> tokens
             {
-                    Lexer::Token(Lexer::TokenType::KEYWORD_FN),
-                    Lexer::Token(Lexer::TokenType::IDENTIFIER, "main"),
-                    Lexer::Token(Lexer::TokenType::BRACE_OPEN),
-                    Lexer::Token(Lexer::TokenType::BRACE_CLOSE),
-                    Lexer::Token(Lexer::TokenType::ARROW),
-                    Lexer::Token(Lexer::TokenType::TYPE, "int64"),
-                    Lexer::Token(Lexer::TokenType::BRACKET_OPEN),
-                    Lexer::Token(Lexer::TokenType::BRACKET_CLOSE),
+                    Lexer::Token(KEYWORD_FN),
+                    Lexer::Token(IDENTIFIER, "main"),
+                    Lexer::Token(BRACE_OPEN),
+                    Lexer::Token(BRACE_CLOSE),
+                    Lexer::Token(ARROW),
+                    Lexer::Token(TYPE, "int64"),
+                    Lexer::Token(BRACKET_OPEN),
+                    Lexer::Token(BRACKET_CLOSE),
             };
 
     const auto program = Parser::parse(tokens);
