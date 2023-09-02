@@ -28,16 +28,7 @@ struct  Token
 
     }
 
-    bool operator==(const Token &rhs) const
-    {
-        return tokenType == rhs.tokenType &&
-               lexeme == rhs.lexeme;
-    }
-
-    bool operator!=(const Token &rhs) const
-    {
-        return !(rhs == *this);
-    }
+    bool operator==(const Token &rhs) const = default;
 };
 
 } // namespace TimC::Lexer
