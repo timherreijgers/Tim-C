@@ -3,7 +3,8 @@
  * Licensed using the MIT license
  */
 
-#include "lexer.h"
+#include "lexer/lexer.h"
+#include "lexer/unknown_token_exception.h"
 
 #include <cctype>
 #include <string>
@@ -95,7 +96,7 @@ static auto getTokenizeFunction(std::string_view input) -> ParsingFunction
     if (std::isspace(input.front()))
         return [](std::string_view, std::vector<Token>&){return 1UL;};
 
-    throw std::runtime_error("Unknown token "s + std::string(input.substr(0, 10)));
+    throw UnknownTokenException("Unknown token "s + std::string(input.substr(0, 10)));
 }
 
 static auto tokenizeFnKeyword(std::string_view /*input*/, std::vector<Token> & tokens) -> size_t {
