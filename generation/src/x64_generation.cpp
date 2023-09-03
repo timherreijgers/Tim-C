@@ -8,6 +8,10 @@
 namespace TimC::Generation
 {
 
-
+std::string X64Generation::generateAssembly(const Parser::AbstractSyntaxTree::ProgramNode &)
+{
+    std::string assembly = "";
+    return "";
+}
 
 } // namespace TimC::Generation

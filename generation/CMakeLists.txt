@@ -10,3 +10,5 @@ add_library(generation ${GENERATION_SOURCES} ${GENERATION_HEADERS})
 
 target_include_directories(generation PUBLIC include)
 
+target_link_libraries(generation PUBLIC parser)
+

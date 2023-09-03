@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "parser/abstract_syntax_tree/program_node.h"
+
 #include <string>
 
 namespace TimC::Generation
@@ -12,7 +14,10 @@ namespace TimC::Generation
 
 class IGeneration
 {
-    [[nodiscard]] virtual std::string generateAssembly() = 0;
+public:
+    virtual ~IGeneration() = default;
+
+    [[nodiscard]] virtual std::string generateAssembly(const Parser::AbstractSyntaxTree::ProgramNode& programNode) = 0;
 };
 
 } // namespace TimC::Generation
