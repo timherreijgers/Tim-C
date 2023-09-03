@@ -15,7 +15,7 @@ class X64Generation : public IGeneration
 public:
     X64Generation() = default;
 
-    [[nodiscard]] std::string generateAssembly(const Parser::AbstractSyntaxTree::ProgramNode& programNode) final;
+    [[nodiscard]] std::unique_ptr<AssemblyProgram> generateAssembly(const Parser::AbstractSyntaxTree::ProgramNode& programNode) final;
 };
 
 } // namespace TimC::Generation

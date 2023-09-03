@@ -26,5 +26,5 @@ int main()
     auto generation = Generation::GenerationFactory()
             .getGenerationForArchitecture(Generation::Architecture::X64);
 
-    std::cout << generation->generateAssembly(abstractSyntaxTree) << std::endl;
+    std::cout << generation->generateAssembly(abstractSyntaxTree)->toCompileAbleString() << std::endl;
 }
