@@ -5,17 +5,26 @@
 
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "generation/generation_factory.h"
 
 #include <string>
 #include <iostream>
 
 int main()
 {
+    using namespace TimC;
+
     std::string code =
-            "fn main() -> int64 {}";
+            "fn main() -> int64"
+            "{"
+            ""
+            "}";
 
-    auto tokens = TimC::Lexer::tokenize(code);
-    const auto abstractSyntaxTree = TimC::Parser::parse(tokens);
+    auto tokens = Lexer::tokenize(code);
+    const auto abstractSyntaxTree = Parser::parse(tokens);
 
-    std::cout << &abstractSyntaxTree << std::endl;
+    auto generation = Generation::GenerationFactory()
+            .getGenerationForArchitecture(Generation::Architecture::X64);
+
+    std::cout << generation->generateAssembly(abstractSyntaxTree)->toCompileAbleString() << std::endl;
 }

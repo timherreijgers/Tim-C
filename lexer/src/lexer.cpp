@@ -8,6 +8,7 @@
 
 #include <cctype>
 #include <string>
+#include <functional>
 
 namespace TimC::Lexer
 {
